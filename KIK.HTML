@@ -1,0 +1,45 @@
+document.addEventListener("DOMContentLoaded", function() {
+    let cartCount = 0;
+    let cartTotal = 0;
+    let isLoggedIn = sessionStorage.getItem("loggedIn") === "true";
+
+    const cartCountElem = document.getElementById("cartCount");
+    const cartTotalElem = document.getElementById("cartTotal");
+    const payBtn = document.getElementById("payBtn");
+
+    // Function to add to cart and update cart count and total
+    function addToCart(price) {
+        cartCount++;
+        cartTotal += price;
+
+        cartCountElem.textContent = cartCount;
+        cartTotalElem.textContent = cartTotal;
+
+        // Enable the "Proceed to Pay" button
+        if (cartCount > 0) {
+            payBtn.disabled = false;
+        }
+    }
+
+    // Check login status
+    if (isLoggedIn) {
+        const prices = document.querySelectorAll(".price");
+        prices.forEach(priceElem => {
+            priceElem.classList.remove("restricted");
+            priceElem.addEventListener("click", function() {
+                const price = parseInt(priceElem.dataset.price);
+                addToCart(price);
+            });
+        });
+    } else {
+        alert("Please log in to interact with the product prices.");
+    }
+
+    // Event listener for payment button
+    payBtn.addEventListener("click", function() {
+        const mpesaNumber = prompt("Enter your MPesa number:");
+        if (mpesaNumber) {
+            alert(`Payment request sent to MPesa number: ${mpesaNumber}. Total amount: ${cartTotal} Ksh`);
+        }
+    });
+});

@@ -1,0 +1,19 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const loginForm = document.getElementById("loginForm");
+
+    loginForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        // Simple login validation (email and password check)
+        if (email === "kiboko20022GMAIL.COM" && password === "password123") {
+            sessionStorage.setItem("loggedIn", "true");
+            alert("Login successful! You can now access the product prices.");
+            window.location.href = "index.html";
+        } else {
+            alert("Invalid email or password. Please try again.");
+        }
+    });
+});
